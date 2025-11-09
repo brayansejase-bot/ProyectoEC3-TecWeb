@@ -29,22 +29,24 @@ namespace CourtReservation_Infraestructure.Validators
                 _serviceProvider = serviceProvider;
             }
 
-            public async Task<ValidationResult> ValidateAsync<T>(T model)
+        public async Task<ValidationResult> ValidateAsync<T>(T model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model), "El modelo no puede ser nulo");
+
+            var validator = _serviceProvider.GetService<IValidator<T>>();
+
+            if (validator == null)
+                throw new InvalidOperationException($"Validación No encontrada para el tipo {typeof(T).Name}");
+
+            var result = await validator.ValidateAsync(model);
+
+            return new ValidationResult
             {
-                var validator = _serviceProvider.GetService<IValidator<T>>();
-
-                if (validator == null)
-                {
-                    throw new InvalidOperationException($"Validación No encontrada para el tipo {typeof(T).Name}");
-                }
-
-                var result = await validator.ValidateAsync(model);
-
-                return new ValidationResult
-                {
-                    IsValid = result.IsValid,
-                    Errors = result.Errors.Select(e => e.ErrorMessage).ToList()
-                };
-            }
+                IsValid = result.IsValid,
+                Errors = result.Errors.Select(e => e.ErrorMessage).ToList()
+            };
         }
+
+    }
 }

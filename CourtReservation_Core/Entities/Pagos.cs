@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace CourtReservation_Core.Entities;
 
-public partial class Pagos
+public partial class Pagos : BaseEntity
 {
-    public int Id { get; set; }
 
     public int ReservaId { get; set; }
 

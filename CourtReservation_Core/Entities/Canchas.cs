@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace CourtReservation_Core.Entities;
 
-public partial class Canchas
+public partial class Canchas : BaseEntity
 {
-    public int Id { get; set; }
 
     public string Nombre { get; set; } = null!;
 

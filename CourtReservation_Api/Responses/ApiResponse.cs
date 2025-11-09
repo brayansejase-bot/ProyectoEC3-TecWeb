@@ -1,4 +1,5 @@
-﻿using CourtReservation_Infraestructure.Dto_s;
+﻿using CourtReservation_Core.CustomEntities;
+using CourtReservation_Infraestructure.Dto_s;
 
 namespace CourtReservation_Api.Responses
 {
@@ -7,6 +8,9 @@ namespace CourtReservation_Api.Responses
        
 
         public T Data { get; set; }
+
+        public Pagination Pagination { get; set; }
+        public Message[] Messages { get; set; }
         public ApiResponse(T data)
         {
             Data = data;

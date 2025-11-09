@@ -3,53 +3,81 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CourtReservation_Core.CustomEntities;
 using CourtReservation_Core.Entities;
+using CourtReservation_Core.Enum;
 using CourtReservation_Core.Interfaces;
+using CourtReservation_Core.QueryFilters;
 using CourtReservation_Infraestructure.Context;
+using CourtReservation_Infraestructure.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourtReservation_Infraestructure.Repositories
 {
-    public class ReservaRepository : IReservaRepository
+    public class ReservaRepository : BaseRepository<Reservas>, IReservaRepository
     {
 
-        private readonly ApplicationDbContext _context;
-
-        public ReservaRepository(ApplicationDbContext context)
+        private readonly IDapperContext _dapper;
+        //private readonly SocialMediaContext _context;
+        public ReservaRepository(ApplicationDbContext context,
+            IDapperContext dapper) : base(context)
         {
-            _context = context;
+            //_context = context;
+            _dapper = dapper;
         }
 
-        public async Task<IEnumerable<Reservas>> GetAllReservasAsync()
+
+        public async Task<IEnumerable<ReservaQueryFilter>> GetAllReservas24DapperAsync(int limit = 10)
         {
-            var reservas = await _context.Reservas.ToListAsync();
-            return reservas;
+            try
+            {
+                var sql = _dapper.Provider switch
+                {
+                    DatabaseProvider.SqlServer => ReservaQueries.ReservaQuery24SqlServer,
+
+                    DatabaseProvider.MySql => ReservaQueries.PostQueryMySQl,
+                    _ => throw new NotSupportedException("Provider no soportado")
+                };
+
+                return await _dapper.QueryAsync<ReservaQueryFilter>(sql, new { Limit = limit });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public async Task<Reservas> GetReservaAsync(int id)
+        public async Task<IEnumerable<NroReservasPorUsuario>> GetNroReservasPorUsuarioAsync()
         {
-            var reserva = await _context.Reservas.FirstOrDefaultAsync(
-                x => x.Id == id);
+            try
+            {
+                var sql = ReservaQueries.NroReservasPorUsuarioSqlServer;
 
-            return reserva;
+                return await _dapper.QueryAsync<NroReservasPorUsuario>(sql);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
         }
+        public async Task<IEnumerable<ReservasConPagoRealizado>> GetReservasConPagoRealizadoAsync()
+        {
+            try
+            {
+                var sql = ReservaQueries.ReservasConPagoRealizado;
 
-        public async Task InsertReservaAsync(Reservas reserva)
-        {
-            _context.Reservas.Add(reserva);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateReservaAsync(Reservas reserva)
-        {
-            _context.Reservas.Update(reserva);
-            await _context.SaveChangesAsync();
-        }
-        public async Task DeleteReservaAsync(Reservas reserva)
-        {
-            _context.Reservas.Remove(reserva);
-            await _context.SaveChangesAsync();
+                return await _dapper.QueryAsync<ReservasConPagoRealizado>(sql);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
         }
 
     }
+
+
+
+
+    
 }

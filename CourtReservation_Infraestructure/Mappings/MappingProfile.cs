@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CourtReservation_Core.Entities;
+using CourtReservation_Core.QueryFilters;
 using CourtReservation_Infraestructure.Dto_s;
 
 
@@ -16,6 +17,7 @@ namespace CourtReservation_Infraestructure.Mappings
         {
             CreateMap<Reservas, ReservaDto>();
             CreateMap<ReservaDto, Reservas>();
+            CreateMap<ReservaQueryFilter, ReservaDto>();
         }
     }
 }

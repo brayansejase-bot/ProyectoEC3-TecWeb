@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using FluentValidation;
 using CourtReservation_Core.Entities;
 using System.Globalization;
+using CourtReservation_Infraestructure.Dto_s;
 
 namespace CourtReservation_Infraestructure.Validators
 {
-    public class ReservaDtoValidator : AbstractValidator<Reservas>
+    public class ReservaDtoValidator : AbstractValidator<ReservaDto>
 
     {
         public ReservaDtoValidator()
