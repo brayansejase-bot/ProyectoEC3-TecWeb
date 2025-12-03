@@ -14,6 +14,7 @@ namespace CourtReservation_Core.Interfaces
         IBaseRepository<Canchas> CanchaRepository { get; }
         IBaseRepository<Usuarios> UsuarioRepository { get; }
         IReservaRepository ReservaRepository { get; }
+        ISecurityRepository SecurityRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
 

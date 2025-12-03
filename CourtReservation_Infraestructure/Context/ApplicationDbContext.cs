@@ -27,7 +27,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
-    
+    public virtual DbSet<Security> Security { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 

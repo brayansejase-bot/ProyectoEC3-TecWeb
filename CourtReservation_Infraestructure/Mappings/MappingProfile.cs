@@ -7,6 +7,7 @@ using AutoMapper;
 using CourtReservation_Core.Entities;
 using CourtReservation_Core.QueryFilters;
 using CourtReservation_Infraestructure.Dto_s;
+using CourtReservation_Infraestructure.DTOs;
 
 
 namespace CourtReservation_Infraestructure.Mappings
@@ -18,6 +19,7 @@ namespace CourtReservation_Infraestructure.Mappings
             CreateMap<Reservas, ReservaDto>();
             CreateMap<ReservaDto, Reservas>();
             CreateMap<ReservaQueryFilter, ReservaDto>();
+            CreateMap<Security, SecurityDto>().ReverseMap();
         }
     }
 }

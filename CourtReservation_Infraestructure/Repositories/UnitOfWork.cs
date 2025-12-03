@@ -18,7 +18,9 @@ namespace CourtReservation_Infraestructure.Repositories
         public readonly IBaseRepository<Canchas>? _canchaRepository;
         public readonly IBaseRepository<Usuarios>? _usuarioRepository;
         public readonly IReservaRepository? _reservaRepository;
+        private readonly ISecurityRepository? _securityRepository;
         public readonly IDapperContext _dapper;
+
 
         private IDbContextTransaction? _efTransaction;
         public UnitOfWork(ApplicationDbContext context, IDapperContext dapper)
@@ -36,6 +38,9 @@ namespace CourtReservation_Infraestructure.Repositories
 
         public IReservaRepository ReservaRepository =>
             _reservaRepository ?? new ReservaRepository(_context,_dapper);
+
+        public ISecurityRepository SecurityRepository =>
+            _securityRepository ?? new SecurityRepository(_context);
 
         public void Dispose()
         {

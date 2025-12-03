@@ -7,6 +7,7 @@ using CourtReservation_Core.Interfaces.Services_Interfaces;
 using CourtReservation_Core.QueryFilters;
 using CourtReservation_Infraestructure.Dto_s;
 using CourtReservation_Infraestructure.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +16,11 @@ using Microsoft.Extensions.Hosting;
 
 namespace CourtReservation_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+
     public class ReservasController : ControllerBase
     {
         
@@ -107,8 +111,7 @@ namespace CourtReservation_Api.Controllers
 
                 ApiResponse<ReservaDto> response = new ApiResponse<ReservaDto>(reservatDto);
                 
-                return Ok(response); // Retorna 200
-            
+                return Ok(response);
 
         }
 
@@ -129,8 +132,6 @@ namespace CourtReservation_Api.Controllers
             var response = new ApiResponse<IEnumerable<ReservaQueryFilter>>(posts);
 
             return Ok(response);
-
-
         }
 
         /// <summary> 
@@ -171,8 +172,6 @@ namespace CourtReservation_Api.Controllers
             var response = new ApiResponse<IEnumerable<ReservasConPagoRealizado>>(posts);
 
             return Ok(response);
-
-
         }
 
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CourtReservation_Infraestructure.EntitiesConfigurations
 {
-    public class ReservaConfiguration
+    public class ReservaConfiguration : IEntityTypeConfiguration<Reservas>
     {
         public void Configure(EntityTypeBuilder<Reservas> builder)
         {
